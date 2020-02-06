@@ -50,7 +50,7 @@ var Simple1DNoise = function() {
 class Mine {
   constructor(x, yOff, gap) {
     this.x = x
-    this.y = Math.random() * (gap - 50) + yOff + 25
+    this.y = Math.random() * (gap - 150) + yOff + 75
     this.bbox = {x: this.x + 5, y: this.y + 5, w: 90, h: 90}
   }
 
@@ -151,7 +151,7 @@ function loop(env) {
   ctx.fillText(`${Date.now() - env.startTime} points`, 20, 40)
 
   // Shrink gap
-  if ((env.time - env.lastShrink) >= 1000) {
+  if ((env.time - env.lastShrink) >= 1000/3) {
     env.lastShrink = Date.now()
     env.gap -= 1
     env.gap = Math.max(env.minGap, env.gap)
@@ -182,8 +182,8 @@ window.addEventListener('DOMContentLoaded', event => {
   })
 
   const noise = Simple1DNoise()
-  noise.setAmplitude(0.5)
-  noise.setScale(0.0015)
+  noise.setAmplitude(0.8)
+  noise.setScale(0.004)
 
   const ctx = canvas.getContext('2d')
   ctx.font = '32pt sans serif'
@@ -194,7 +194,7 @@ window.addEventListener('DOMContentLoaded', event => {
     env = {
       canvas,
       player,
-      speed: 300,
+      speed: 500,
       gap: 500,
       time: Date.now(),
       startTime: Date.now(),
