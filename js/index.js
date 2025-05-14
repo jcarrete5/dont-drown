@@ -1,4 +1,4 @@
-var Simple1DNoise = function() {
+const Simple1DNoise = function() {
   var MAX_VERTICES = 256;
   var MAX_VERTICES_MASK = MAX_VERTICES -1;
   var amplitude = 1;
@@ -61,7 +61,7 @@ class Mine {
   }
 }
 Mine.img = new Image()
-Mine.img.src = "mine.png"
+Mine.img.src = "assets/mine.png"
 
 class Player {
   constructor() {
@@ -72,7 +72,7 @@ class Player {
     this.vy = 0
     this.ay = 0
     this.img = new Image()
-    this.img.src = 'submarine.png'
+    this.img.src = 'assets/submarine.png'
     this.goDown()
   }
   
@@ -106,7 +106,7 @@ function loop(env) {
   const topY = env.noise.getVal(env.time) * (env.canvas.height - env.gap)
   const bottomY = topY + env.gap
   env.border.push({x: env.canvas.width, width: Math.ceil(env.speed * dt) + 1, topY, bottomY})
-  for (b of env.border) {
+  for (const b of env.border) {
     ctx.fillRect(b.x, 0, b.width, b.topY)
     ctx.fillRect(b.x, b.bottomY, b.width, env.canvas.height)
     b.x -= env.speed * dt
@@ -128,7 +128,7 @@ function loop(env) {
     env.mines.push(new Mine(env.canvas.width, border.topY, env.gap))
     env.border.push(border)
   }
-  for (mine of env.mines) {
+  for (const mine of env.mines) {
     mine.draw(ctx)
     mine.x -= env.speed * dt
     mine.bbox.x -= env.speed * dt
@@ -137,9 +137,7 @@ function loop(env) {
     }
     const p = env.player
     if (mine.bbox.x <= p.x + p.w && mine.bbox.x + mine.bbox.w >= p.x) {
-      console.log('x good')
       if (mine.bbox.y <= p.y + p.h && mine.bbox.y + mine.bbox.h >= p.y) {
-        console.log('game should end')
         env.gameover()
       }
     }
@@ -162,9 +160,8 @@ function loop(env) {
   env.player.y += env.player.vy * dt
 }
 
-window.addEventListener('DOMContentLoaded', event => {
+window.addEventListener('DOMContentLoaded', _event => {
   function gameover() {
-    console.log('gameover')
     clearInterval(loopInterval)
   }
 
@@ -190,7 +187,7 @@ window.addEventListener('DOMContentLoaded', event => {
   ctx.fillText('Click window to start game', 20, 60)
 
   var loopInterval, env
-  canvas.addEventListener('focus', event => {
+  canvas.addEventListener('focus', _event => {
     env = {
       canvas,
       player,
